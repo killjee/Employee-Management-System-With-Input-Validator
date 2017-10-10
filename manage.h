@@ -84,4 +84,53 @@ void register_new_employee(int id) {
 		if(designation[0]!='\0')	break;
 		printf("\ndesignation not in correct format input again\n");
 	}
+
+	fprintf(fp,"%d\n", id);
+	fprintf(fp,"%s\n", f_name);
+	fprintf(fp,"%s\n", m_name);
+	fprintf(fp,"%s\n", l_name);
+	fprintf(fp,"%s\n", email);
+	fprintf(fp,"%s\n", dob);
+	fprintf(fp,"%s\n", doj);
+	fprintf(fp,"%s\n", mobile);
+	fprintf(fp,"%s\n", salary);
+	fprintf(fp,"%s\n", designation);
+	fclose(fp);
+}
+
+void retrive_data(){
+	FIILE *fp;
+	fopen("Data.txt","r");
+
+	while (fscanf(fp,"%d",emp_id[cnt])) {
+		fscanf(fp,"%s",f_nam[cnt]);
+		fscanf(fp,"%s",m_nam[cnt]);
+		fscanf(fp,"%s",l_nam[cnt]);
+		fscanf(fp,"%s",email[cnt]);
+		fscanf(fp,"%s",do_b[cnt]);
+		fscanf(fp,"%s",do_j[cnt]);
+		fscanf(fp,"%s",mobi[cnt]);
+		fscanf(fp,"%s",doj[cnt]);
+		fscanf(fp,"%s",salary[cnt]);
+		fscanf(fp,"%s",designation[cnt]);
+		cnt++;
+	}
+
+}
+
+int get_id() {
+	int p=0,q=cnt;
+	while (q!=0) {
+		p=p*10+(q%5);
+		q/=5;
+	}
+	return p;
+}
+
+int search_idx(int id) {
+	int i;
+	for (i=0 ; i<cnt ; i++) {
+		if(id==emp_id[i])	return i;
+	}
+	return -1;
 }
