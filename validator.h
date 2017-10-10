@@ -204,7 +204,7 @@ void input_mobile(char *ch) {
 Parameter to this function is a character pointer which will store the input salary and if wrong
 salary is entered it will be an empty string with 1st character containing '\0'.
 */
-void input_mobile(char *ch , int mi , int ma) {
+void input_salary(char *ch , int mi , int ma) {
 /*	Allocate memory to character array and take input*/
 	ch=(char *)malloc(sizeof(char)*25);
 	scanf("%s",&ch);
@@ -233,4 +233,20 @@ void input_mobile(char *ch , int mi , int ma) {
 		ch[0]='\0';
 		return;
 	}
+}
+
+/*Function to take input salary:
+		- Salary must be integer
+		- Salary must be in a given range
+Parameter to this function is a character pointer which will store the input salary and if wrong
+salary is entered it will be an empty string with 1st character containing '\0'.
+*/
+void input_designation(char *ch ) {
+/*	Allocate memory to character array and take input*/
+	ch=(char *)malloc(sizeof(char)*25);
+	scanf("%s",&ch);
+	int len=strlen(ch);
+
+	ch[len]='\0';
+	return;
 }
