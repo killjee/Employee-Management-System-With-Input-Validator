@@ -1,11 +1,5 @@
 #include "manage.h"
 
-int cnt=0;
-int emp_id[1005];
-char f_nam[1005][30],l_name[1005][30],m_name[1005][30];
-char emai[1005][30],do_b[1005][30],do_j[1005][30];
-char mobi[1005][30],salar[1005][30],designtio[1005][30];
-
 int main() {
 	retrive_data();
 	while (1) {
@@ -15,20 +9,20 @@ int main() {
 		int sel;
 		scanf("%d",&sel);
 		if(sel==1) {
-			int id=get_id();
-			register_new_employee(id);
+			int id=get_id(cnt);
+			register_new_employee(id,cnt);
 			printf("New Employee Registered Successfully with employee id %d\n",emp_id[cnt-1]);
 		}
 		else {
-			int e_id;
+			int eid;
 			printf("Please input Employee id you want to search: ");
-			scand("%d",&eid)
-			int id=search_idx(e_id);
+			scanf("%d",&eid);
+			int id=search_idx(eid,cnt);
 			if(id!=-1) {
-				printf("Employee ID:\t%d\n",e_id);
-				printf("First Name:\t%s\n",f_nam[id]);
-				printf("Middle Name:\t%s\n",m_nam[id]);
-				printf("Last Name:\t%s\n",l_nam[id]);
+				printf("Employee ID:\t%d\n",eid);
+				printf("First Name:\t%s\n",f_name[id]);
+				printf("Middle Name:\t%s\n",m_name[id]);
+				printf("Last Name:\t%s\n",l_name[id]);
 				printf("Email-ID:\t%s\n",emai[id]);
 				printf("D.O.B:\t%s\n",do_b[id]);
 				printf("D.O.J:\t%s\n",do_j[id]);

@@ -1,94 +1,94 @@
 #include "validator.h"
 
+int cnt;
+int emp_id[1005];
+char f_name[1005][30],l_name[1005][30],m_name[1005][30];
+char emai[1005][30],do_b[1005][30],do_j[1005][30];
+char mobi[1005][30],salar[1005][30],designatio[1005][30];
+
 void register_new_employee(int id , int cnt) {
 	FILE *fp;
 	fp=fopen("Data.txt","a");
 
 	printf("Please input your first Name: ");
 
-	char *f_name;
+	char f_nam[30];
 	while (1) {
-		input_name(f_name);
-		if(f_name[0]!='\0')	break;
+		int bkhl=input_name(f_nam);
+		if(bkhl)	break;
 		printf("\nFirst Name not in correct format input again\n");
 	}
 
 	printf("Please input your Middle Name: ");
 
-	char *m_name;
+	char m_nam[30];
 	while (1) {
-		input_name(m_name);
-		if(m_name[0]!='\0')	break;
+		if(input_name(m_nam))	break;
 		printf("\nMiddle Name not in correct format input again \n");
 	}
 
 	printf("Please input your Last Name: ");
 
-	char *l_name;
+	char l_nam[30];
 	while (1) {
-		input_name(l_name);
-		if(l_name[0]!='\0')	break;
-		printf("\nLast Name not in correct format input again\n");
+		if(input_name(l_nam)) {
+			break;
+		}
+		printf("\nLast Name not in correct format input again \n");
 	}
 
 	printf("Please input your email id: ");
 
-	char *email;
+	char email[30];
 	while (1) {
-		input_emailid(email);
-		if(email[0]!='\0')	break;
+		if(input_emailid(email))	break;
 		printf("\nEmail not in correct format input again\n");
 	}
 
 	printf("Please input your D.O.B: ");
 
-	char *dob;
+	char dob[30];
 	while (1) {
-		input_date(dob,1970,2000);
-		if(dob[0]!='\0')	break;
+		if(input_date(dob,1970,2000))	break;
 		printf("\ndob not in correct format input again\n");
 	}
 
 	printf("Please input your D.O.J: ");
 
-	char *doj;
+	char doj[30];
 	while (1) {
-		input_date(doj,2000,2016);
-		if(doj[0]!='\0')	break;
+		if(input_date(doj,1950,2016))	break;
 		printf("\ndoj not in correct format input again\n");
 	}
 
 	printf("Please input your mobile number: ");
 
-	char *mobile;
+	char mobile[30];
 	while (1) {
-		input_mobile(mobile,2000,2016);
-		if(mobile[0]!='\0')	break;
+		if(input_mobile(mobile))	break;
 		printf("\nmobile number not in correct format input again\n");
 	}
 
 	printf("Please input your salary: ");
 
-	char *salary;
+	char salary[30];
 	while (1) {
-		input_salary(salary,2000,2016);
-		if(salary[0]!='\0')	break;
+		if(input_salary(salary,2000,2016))	break;
 		printf("\nsalary not in correct format input again\n");
 	}
 
 	printf("Please input your designation: ");
 
-	char *designation;
+	char designation[30];
 	while (1) {
-		input_designation(designation,2000,2016);
-		if(designation[0]!='\0')	break;
+		if(input_designation(designation))	break;
 		printf("\ndesignation not in correct format input again\n");
 	}
 
 	fprintf(fp,"%d\n", id);
-	fprintf(fp,"%s\n", f_name);
-	fprintf(fp,"%s\n", m_name);
-	fprintf(fp,"%s\n", l_name);
+	fprintf(fp,"%s\n", f_nam);
+	fprintf(fp,"%s\n", m_nam);
+	fprintf(fp,"%s\n", l_nam);
 	fprintf(fp,"%s\n", email);
 	fprintf(fp,"%s\n", dob);
 	fprintf(fp,"%s\n", doj);
@@ -96,14 +96,14 @@ void register_new_employee(int id , int cnt) {
 	fprintf(fp,"%s\n", salary);
 	fprintf(fp,"%s\n", designation);
 	emp_id[cnt]=id;
-	strcpy(f_nam[cnt],f_name);
-	strcpy(m_nam[cnt],m_name);
-	strcpy(l_nam[cnt],l_name);
+	strcpy(f_name[cnt],f_nam);
+	strcpy(m_name[cnt],m_nam);
+	strcpy(l_name[cnt],l_nam);
 	strcpy(emai[cnt],email);
 	strcpy(do_b[cnt],dob);
 	strcpy(do_j[cnt],doj);
 	strcpy(mobi[cnt],mobile);
-	strcpy(sala[cnt],salary);
+	strcpy(salar[cnt],salary);
 	strcpy(designatio[cnt],designation);
 	cnt++;
 
@@ -111,13 +111,13 @@ void register_new_employee(int id , int cnt) {
 }
 
 void retrive_data(){
-	FIILE *fp;
-	fopen("Data.txt","r");
+	FILE *fp;
+	fp=fopen("Data.txt","r");
 
-	while (fscanf(fp,"%d",emp_id[cnt])) {
-		fscanf(fp,"%s",f_nam[cnt]);
-		fscanf(fp,"%s",m_nam[cnt]);
-		fscanf(fp,"%s",l_nam[cnt]);
+	while (fscanf(fp,"%d",&emp_id[cnt])!=EOF) {
+		fscanf(fp,"%s",f_name[cnt]);
+		fscanf(fp,"%s",m_name[cnt]);
+		fscanf(fp,"%s",l_name[cnt]);
 		fscanf(fp,"%s",emai[cnt]);
 		fscanf(fp,"%s",do_b[cnt]);
 		fscanf(fp,"%s",do_j[cnt]);
@@ -138,7 +138,7 @@ int get_id(int cnt) {
 	return p;
 }
 
-int search_idx(int id) {
+int search_idx(int id , int cnt) {
 	int i;
 	for (i=0 ; i<cnt ; i++) {
 		if(id==emp_id[i])	return i;
@@ -147,7 +147,7 @@ int search_idx(int id) {
 }
 
 int modify_idx(int id , int cnt) {
-	int a=search_idx(id);
+	int a=search_idx(id,cnt);
 	if(a==-1)	return -1;
 
 	FILE *fp;
@@ -155,27 +155,27 @@ int modify_idx(int id , int cnt) {
 
 	printf("Please input your first Name: ");
 
-	char *f_name;
+	char *f_nam;
 	while (1) {
-		input_name(f_name);
+		input_name(f_nam);
 		if(f_name[0]!='\0')	break;
 		printf("\nFirst Name not in correct format input again\n");
 	}
 
 	printf("Please input your Middle Name: ");
 
-	char *m_name;
+	char *m_nam;
 	while (1) {
-		input_name(m_name);
+		input_name(m_nam);
 		if(m_name[0]!='\0')	break;
 		printf("\nMiddle Name not in correct format input again \n");
 	}
 
 	printf("Please input your Last Name: ");
 
-	char *l_name;
+	char *l_nam;
 	while (1) {
-		input_name(l_name);
+		input_name(l_nam);
 		if(l_name[0]!='\0')	break;
 		printf("\nLast Name not in correct format input again\n");
 	}
@@ -211,7 +211,7 @@ int modify_idx(int id , int cnt) {
 
 	char *mobile;
 	while (1) {
-		input_mobile(mobile,2000,2016);
+		input_mobile(mobile);
 		if(mobile[0]!='\0')	break;
 		printf("\nmobile number not in correct format input again\n");
 	}
@@ -220,7 +220,7 @@ int modify_idx(int id , int cnt) {
 
 	char *salary;
 	while (1) {
-		input_salary(salary,2000,2016);
+		input_salary(salary,1000,2000000);
 		if(salary[0]!='\0')	break;
 		printf("\nsalary not in correct format input again\n");
 	}
@@ -229,32 +229,32 @@ int modify_idx(int id , int cnt) {
 
 	char *designation;
 	while (1) {
-		input_designation(designation,2000,2016);
+		input_designation(designation);
 		if(designation[0]!='\0')	break;
 		printf("\ndesignation not in correct format input again\n");
 	}
 
 	emp_id[a]=id;
-	strcpy(f_nam[a],f_name);
-	strcpy(m_nam[a],m_name);
-	strcpy(l_nam[a],l_name);
+	strcpy(f_name[a],f_nam);
+	strcpy(m_name[a],m_nam);
+	strcpy(l_name[a],l_nam);
 	strcpy(emai[a],email);
 	strcpy(do_b[a],dob);
 	strcpy(do_j[a],doj);
 	strcpy(mobi[a],mobile);
-	strcpy(sala[a],salary);
+	strcpy(salar[a],salary);
 	strcpy(designatio[a],designation);
 
 	for (int i=0 ; i<cnt ; i++) {
 		fprintf(fp,"%d\n", id);
-		fprintf(fp,"%s\n", f_nam[i]);
-		fprintf(fp,"%s\n", m_nam[i]);
-		fprintf(fp,"%s\n", l_nam[i]);
+		fprintf(fp,"%s\n", f_name[i]);
+		fprintf(fp,"%s\n", m_name[i]);
+		fprintf(fp,"%s\n", l_name[i]);
 		fprintf(fp,"%s\n", emai[i]);
 		fprintf(fp,"%s\n", do_b[i]);
 		fprintf(fp,"%s\n", do_j[i]);
 		fprintf(fp,"%s\n", mobi[i]);
-		fprintf(fp,"%s\n", sala[i]);
+		fprintf(fp,"%s\n", salar[i]);
 		fprintf(fp,"%s\n", designatio[i]);
 	}
 
@@ -263,7 +263,7 @@ int modify_idx(int id , int cnt) {
 }
 
 int del_idx(int id , int cnt) {
-	int a=search_idx(id);
+	int a=search_idx(id,cnt);
 	if(a==-1)	return -1;
 
 	FILE *fp;
@@ -271,14 +271,14 @@ int del_idx(int id , int cnt) {
 	for (int i=0 ; i<cnt ; i++) {
 		if(i==a)	continue;
 		fprintf(fp,"%d\n", id);
-		fprintf(fp,"%s\n", f_nam[i]);
-		fprintf(fp,"%s\n", m_nam[i]);
-		fprintf(fp,"%s\n", l_nam[i]);
+		fprintf(fp,"%s\n", f_name[i]);
+		fprintf(fp,"%s\n", m_name[i]);
+		fprintf(fp,"%s\n", l_name[i]);
 		fprintf(fp,"%s\n", emai[i]);
 		fprintf(fp,"%s\n", do_b[i]);
 		fprintf(fp,"%s\n", do_j[i]);
 		fprintf(fp,"%s\n", mobi[i]);
-		fprintf(fp,"%s\n", sala[i]);
+		fprintf(fp,"%s\n", salar[i]);
 		fprintf(fp,"%s\n", designatio[i]);
 	}
 

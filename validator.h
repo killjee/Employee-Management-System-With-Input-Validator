@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
+#include <ctype.h>
 
 /*Function to take input name It validates:
 		- Name must have first character as uppercase alphabet
@@ -10,32 +12,31 @@
 Parameter to this function is a character pointer which will store the input name and if wrong
 name is entered it will be an empty string with 1st character containing '\0'
 */
-void input_name(char *ch) {
+int input_name(char *ch) {
 
 /*	Allocate memory to character arraya and take input*/
-	ch=(char *)malloc(sizeof(char)*30);
-	scanf("%s",&ch);
+	scanf("%s",ch);
 
 /*	Find lenth of string input and assign '\0' to last character*/
 	int len=strlen(ch);
 	ch[len]='\0';
 
 /*	Validating first character is uppercase alphabet*/
-	if((ch[0]<'A' && ch[0]>'Z') || len>25) {
+	if((ch[0]<'A' || ch[0]>'Z') || len>25) {
 		ch[0]='\0';
-		return;
+		return 0;
 	}
 
 /*	Validating other characters are lowercase english characters*/
 	int i;
-	for (i=0 ; i<len ; i++) {
-		if(ch[i]<'a' && ch[i]>'z') {
+	for (i=1 ; i<len ; i++) {
+		if(ch[i]<'a' || ch[i]>'z') {
 			ch[0]='\0';
-			return;
+			return 0;
 		}
 	}
 
-	return;
+	return 1;
 }
 
 /*Function to take validated input of email It validates:
@@ -46,10 +47,9 @@ void input_name(char *ch) {
 Parameter to this function is a character pointer which will store the input email and if wrong
 name is entered it will be an empty string with 1st character containing '\0'
 */
-void input_emailid(char *ch) {
+int input_emailid(char *ch) {
 /*	Allocate memory to character arraya and take input*/
-	ch=(char *)malloc(sizeof(char)*25);
-	scanf("%s",&ch);
+	scanf("%s",ch);
 
 /*	Find lenth of string input and assign '\0' to last character*/
 	int len=strlen(ch);
@@ -65,7 +65,7 @@ void input_emailid(char *ch) {
 	}
 	if(cnt!=1 || !isalpha(ch[len-1])) {
 		ch[0]='\0';
-		return;
+		return 0;
 	}
 
 /*	Validating if input has a correct domain name*/
@@ -78,9 +78,9 @@ void input_emailid(char *ch) {
 	}
 	if(chk || cnt!=1) {
 		ch[0]='\0';
-		return;
+		return 0;
 	}
-	return;
+	return 1;
 }
 
 /*Function to take validated input of Date It validates:
@@ -90,10 +90,9 @@ void input_emailid(char *ch) {
 Parameter to this function is a character pointer which will store the input email and if wrong
 name is entered it will be an empty string with 1st character containing '\0', Range of date in years
 */
-void input_date(char *ch , int hi , int lo) {
+int input_date(char *ch , int lo , int hi) {
 /*	Allocate memory to character array and take input*/
-	ch=(char *)malloc(sizeof(char)*25);
-	scanf("%s",&ch);
+	scanf("%s",ch);
 
 /*	Find lenth of string input and assign '\0' to last character*/
 	int len=strlen(ch);
@@ -102,17 +101,17 @@ void input_date(char *ch , int hi , int lo) {
 /*	Validating if input is of correct length*/
 	if(len!=10) {
 		ch[0]='\0';
-		return;
+		return 0;
 	}
 
 /* Validating if input's 2nd and 5th position is / or -*/
 	if(ch[2]!='/' && ch[2]!='-') {
 		ch[0]='\0';
-		return;
+		return 0;
 	}
 	if(ch[5]!='/' && ch[5]!='-') {
 		ch[0]='\0';
-		return;
+		return 0;
 	}
 
 /*	Validating if other characters are digits*/
@@ -121,7 +120,7 @@ void input_date(char *ch , int hi , int lo) {
 		if(i==2 || i==5)	continue;
 		if(!isdigit(ch[i])) {
 			ch[0]='\0';
-			return;
+			return 0;
 		}
 	}
 
@@ -133,8 +132,9 @@ void input_date(char *ch , int hi , int lo) {
 	}
 	if(yea<lo || yea>hi) {
 		ch[0]='\0';
-		return;
+		return 0;
 	}
+
 /* Validating if date is not ambiguous*/
 	int mo=0,da=0;
 	mo=(ch[3]-'0')*10+(ch[4]-'0');
@@ -142,30 +142,30 @@ void input_date(char *ch , int hi , int lo) {
 	if(mo==1 || mo==3 || mo==5 || mo==7 || mo==8 || mo==10 || mo==12) {
 		if(da<1 || da>31) {
 			ch[0]='\0';
-			return;
+			return 0;
 		}
 	}
 	else if(mo==2) {
-		if(da<1 || da>29)	return;
+		if(da<1 || da>29)	return 0;
 		if(da==29) {
 			if(yea%100!=0 && yea%4!=0) {
 				ch[0]='\0';
-				return;
+				return 0;
 			}
 			else if(yea%400!=0) {
 				ch[0]='\0';
-				return;
+				return 0;
 			}
 		}
 	}
 	else {
 		if(da<1 || da>30) {
 			ch[0]='\0';
-			return;
+			return 0;
 		}
 	}
 
-	return;
+	return 1;
 }
 
 /*Function to take validated input of mobile number It validates:
@@ -174,10 +174,10 @@ void input_date(char *ch , int hi , int lo) {
 Parameter to this function is a character pointer which will store the input email and if wrong
 name is entered it will be an empty string with 1st character containing '\0'.
 */
-void input_mobile(char *ch) {
+int input_mobile(char *ch) {
 /*	Allocate memory to character array and take input*/
-	ch=(char *)malloc(sizeof(char)*25);
-	scanf("%s",&ch);
+	scanf("%s",ch);
+	int i;
 
 /*	Find lenth of string input and assign '\0' to last character*/
 	int len=strlen(ch);
@@ -186,16 +186,17 @@ void input_mobile(char *ch) {
 /*	Validating if input is of correct length*/
 	if(len!=10) {
 		ch[0]='\0';
-		return;
+		return 0;
 	}
 
 /*	Validating if input contains digits only*/
 	for (i=0 ; i<len ; i++) {
 		if(!isdigit(ch[i])) {
 			ch[0]='\0';
-			return;
+			return 0;
 		}
 	}
+	return 1;
 }
 
 /*Function to take input salary:
@@ -204,10 +205,10 @@ void input_mobile(char *ch) {
 Parameter to this function is a character pointer which will store the input salary and if wrong
 salary is entered it will be an empty string with 1st character containing '\0'.
 */
-void input_salary(char *ch , int mi , int ma) {
+int input_salary(char *ch , int mi , int ma) {
 /*	Allocate memory to character array and take input*/
-	ch=(char *)malloc(sizeof(char)*25);
-	scanf("%s",&ch);
+	int i;
+	scanf("%s",ch);
 
 /*	Find lenth of string input and assign '\0' to last character*/
 	int len=strlen(ch);
@@ -215,15 +216,15 @@ void input_salary(char *ch , int mi , int ma) {
 
 	if(len>8){
 		ch[0]='\0';
-		return;
+		return 0;
 	}
 
 /*	Validating if input contains digits only*/
-	int amt=0
+	int amt=0;
 	for (i=0 ; i<len ; i++) {
 		if(!isdigit(ch[i])) {
 			ch[0]='\0';
-			return;
+			return 0;
 		}
 		amt=amt*10;
 		amt=amt+(ch[i]-'0');
@@ -231,8 +232,9 @@ void input_salary(char *ch , int mi , int ma) {
 
 	if(amt<mi || amt>ma) {
 		ch[0]='\0';
-		return;
+		return 0;
 	}
+	return 1;
 }
 
 /*Function to take input salary:
@@ -241,14 +243,12 @@ void input_salary(char *ch , int mi , int ma) {
 Parameter to this function is a character pointer which will store the input salary and if wrong
 salary is entered it will be an empty string with 1st character containing '\0'.
 */
-void input_designation(char *ch ) {
+int input_designation(char *ch ) {
 /*	Allocate memory to character array and take input*/
-	ch=(char *)malloc(sizeof(char)*25);
-	scanf("%s",&ch);
+	scanf("%s",ch);
 	int len=strlen(ch);
 
-	ch[len]='\0';
-	return;
+	return 1;
 }
 
 /*Function to take input Country:
@@ -256,18 +256,18 @@ void input_designation(char *ch ) {
 Parameter to this function is a character pointer which will store the input salary and if wrong
 salary is entered it will be an empty string with 1st character containing '\0'.
 */
-void input_designation(char *ch ) {
+int input_country(char *ch ) {
 /*	Allocate memory to character array and take input*/
-	ch=(char *)malloc(sizeof(char)*25);
-	scanf("%s",&ch);
+	scanf("%s",ch);
 	int len=strlen(ch);
 
 	ch[len]='\0';
-	fopen("Cou.txt","r");
+	FILE *fp;
+	fp=fopen("Cou.txt","r");
 
 	char ck[25];
 	bool chk=0;
-	while (fscanf(fp,"%s",ck)) {
+	while (fscanf(fp,"%s",ck)!=EOF) {
 		if(!strcmp(ch,ck)) {
 			chk=1;
 			break;
@@ -275,7 +275,8 @@ void input_designation(char *ch ) {
 	}
 	if(!chk) {
 		ch[0]='\0';
-		return;
+		return 0;
 	}
-	return;
+	fclose(fp);
+	return 1;
 }
