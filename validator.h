@@ -13,7 +13,7 @@ name is entered it will be an empty string with 1st character containing '\0'
 void input_name(char *ch) {
 
 /*	Allocate memory to character arraya and take input*/
-	ch=(char *)malloc(sizeof(char)*25);
+	ch=(char *)malloc(sizeof(char)*30);
 	scanf("%s",&ch);
 
 /*	Find lenth of string input and assign '\0' to last character*/
@@ -21,7 +21,7 @@ void input_name(char *ch) {
 	ch[len]='\0';
 
 /*	Validating first character is uppercase alphabet*/
-	if(ch[0]<'A' && ch[0]>'Z') {
+	if((ch[0]<'A' && ch[0]>'Z') || len>25) {
 		ch[0]='\0';
 		return;
 	}
@@ -248,5 +248,34 @@ void input_designation(char *ch ) {
 	int len=strlen(ch);
 
 	ch[len]='\0';
+	return;
+}
+
+/*Function to take input Country:
+		- Counry must be correct
+Parameter to this function is a character pointer which will store the input salary and if wrong
+salary is entered it will be an empty string with 1st character containing '\0'.
+*/
+void input_designation(char *ch ) {
+/*	Allocate memory to character array and take input*/
+	ch=(char *)malloc(sizeof(char)*25);
+	scanf("%s",&ch);
+	int len=strlen(ch);
+
+	ch[len]='\0';
+	fopen("Cou.txt","r");
+
+	char ck[25];
+	bool chk=0;
+	while (fscanf(fp,"%s",ck)) {
+		if(!strcmp(ch,ck)) {
+			chk=1;
+			break;
+		}
+	}
+	if(!chk) {
+		ch[0]='\0';
+		return;
+	}
 	return;
 }
